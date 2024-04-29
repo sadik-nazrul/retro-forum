@@ -59,7 +59,7 @@ const displayPost = posts => {
             </div>
 
             <!-- Marked -->
-            <img src="./assets/marked.svg" alt="" onclick="markAsRead('${post.title}', ${post.view_count})">
+            <img src="./assets/marked.svg" alt="" onclick="markAsRead('${post?.title || 'Not Found'}', ${post?.view_count || 'Not Found'})">
         </div>
         </div>
         `
