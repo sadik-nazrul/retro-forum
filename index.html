@@ -114,10 +114,42 @@
     <main>
         <!-- Let's Discuss Section -->
         <section class="container mx-auto py-10">
-            <div class="flex justify-center border">
+            <!-- Section Intro -->
+            <div class="flex justify-center pb-8">
                 <div class="text-center lg:w-2/4 px-5">
                     <h2 class="mb-5 text-xl lg:text-3xl font-bold">Let's Discuss</h2>
                     <p>Yes, you can run unit tests and view the results directly within the app. The integrated testing features allow for a streamlined.</p>
+                </div>
+            </div>
+
+            <!-- All post Part -->
+            <div class="grid grid-cols-3 gap-5">
+
+                <div id="post-container" class="col-span-2 space-y-4">
+                    <!-- Dynamically show all post inside the container -->
+                </div>
+
+                <!-- Mark as read -->
+                <div class="flex flex-col gap-3 bg-[#12132D10] p-4 rounded-xl">
+                    <!-- Intro -->
+                    <div class="flex justify-between">
+                        <h2 class="font-semibold">Title</h2>
+                        <div class="flex gap-2">
+                            <img src="./assets/mark.svg" alt="check">
+                            <p>Mark as read</p>
+                            <p>(0)</p>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic -->
+                    <div class="flex justify-between gap-4 bg-white p-4 rounded-xl">
+                        <!-- title -->
+                        <p>10 Kids Unaware of Their Halloween Costume</p>
+                        <div class="flex gap-1 items-center">
+                            <img src="./assets/views.svg" alt="Views">
+                            <p>1568</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
