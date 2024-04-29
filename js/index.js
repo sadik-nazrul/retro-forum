@@ -93,4 +93,52 @@ const markAsRead = (title, view)=>{
     markContainer.appendChild(markDiv);
 }
 
+// Fetch Latest Post
+const loadLatestPost = async()=>{
+    const response = await fetch('https://openapi.programming-hero.com/api/retro-forum/latest-posts');
+    const data = await response.json();
+    displayLatestPost(data);
+}
+
+// Display Latest Post in UI
+const displayLatestPost = data =>{
+    // Get lateste post container
+    const latestPostContainer = document.getElementById('latest-post-container');
+
+    // Iterate latest posts array and get single post
+    data.forEach(latestPost => {
+        const latestPostCard = document.createElement('div');
+        latestPostCard.className = `flex flex-col gap-3 border p-4 rounded-xl`;
+        latestPostCard.innerHTML = `
+        <!-- Featured Image -->
+        <img class="rounded-lg" src="${latestPost.cover_image?latestPost.cover_image:'Not found'}" alt="">
+
+        <!-- Publish Info -->
+        <div class="flex gap-2 items-center">
+            <img src="./assets/calender.svg" alt="">
+            <p>${latestPost.author.posted_date?latestPost.author.posted_date:'No publish date'}</p>
+        </div>
+
+        <!-- Title -->
+        <h2 class="text-lg font-semibold">${latestPost.title?latestPost.title: 'Not Found'}</h2>
+
+        <!-- Exert -->
+        <p>${latestPost.description?latestPost.description:'No Data Found'}</p>
+
+        <!-- Author Info -->
+        <div class="flex gap-4">
+            <img class="w-16 rounded-full" src="${latestPost?.profile_image || 'Not found'}" alt="">
+
+            <div>
+                <h3 class="text-sm font-bold">${latestPost?.author?.name || 'author not found'}</h3>
+                <p>${latestPost?.author?.designation || 'Unknown'}</p>
+            </div>
+        </div>
+        `;
+        latestPostContainer.appendChild(latestPostCard);  
+    });
+}
+
+loadLatestPost()
+
 loadPost();
