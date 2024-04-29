@@ -1,9 +1,17 @@
 // Load all posts form the given API
 const loadPost = async () => {
+    // console.log(searchPost);
     const response = await fetch('https://openapi.programming-hero.com/api/retro-forum/posts');
     const data = await response.json();
     const posts = data.posts;
     displayPost(posts)
+}
+
+const catPost = async(searchFieldText)=>{
+    const response = await fetch(`https://openapi.programming-hero.com/api/retro-forum/posts?category=${searchFieldText}`);
+    const data = await response.json();
+    const serPost = data.posts
+    displayPost(serPost);
 }
 
 // Get posts individulaly for showing in the UI which is retro foum landing page
@@ -11,6 +19,7 @@ const displayPost = posts => {
 
     // Get The post Container
     const postContainer = document.getElementById('post-container');
+    postContainer.textContent = ''
 
     // Loop trough and get individual post
     posts.forEach(post => {
@@ -74,34 +83,34 @@ const markContainer = document.getElementById('mark-container');
 let readCount = document.getElementById('readCount');
 readCount.innerText = markedCount;
 
-const markAsRead = (title, view)=>{
+const markAsRead = (title, view) => {
     console.log(title, view);
-    
+
     markedCount++
     readCount.innerText = markedCount;
-    
+
     const markDiv = document.createElement('div');
     markDiv.className = `flex justify-between gap-4 bg-white p-4 rounded-xl`;
     markDiv.innerHTML = `
     <!-- title -->
-    <p>${title? title: 'not found'}</p>
+    <p>${title ? title : 'not found'}</p>
     <div class="flex gap-1 items-center">
         <img src="./assets/views.svg" alt="Views">
-        <p>${view? view: 'not found'}</p>
+        <p>${view ? view : 'not found'}</p>
     </div>
     `
     markContainer.appendChild(markDiv);
 }
 
 // Fetch Latest Post
-const loadLatestPost = async()=>{
+const loadLatestPost = async () => {
     const response = await fetch('https://openapi.programming-hero.com/api/retro-forum/latest-posts');
     const data = await response.json();
     displayLatestPost(data);
 }
 
 // Display Latest Post in UI
-const displayLatestPost = data =>{
+const displayLatestPost = data => {
     // Get lateste post container
     const latestPostContainer = document.getElementById('latest-post-container');
 
@@ -111,19 +120,19 @@ const displayLatestPost = data =>{
         latestPostCard.className = `flex flex-col gap-3 border p-4 rounded-xl`;
         latestPostCard.innerHTML = `
         <!-- Featured Image -->
-        <img class="rounded-lg" src="${latestPost.cover_image?latestPost.cover_image:'Not found'}" alt="">
+        <img class="rounded-lg" src="${latestPost.cover_image ? latestPost.cover_image : 'Not found'}" alt="">
 
         <!-- Publish Info -->
         <div class="flex gap-2 items-center">
             <img src="./assets/calender.svg" alt="">
-            <p>${latestPost.author.posted_date?latestPost.author.posted_date:'No publish date'}</p>
+            <p>${latestPost.author.posted_date ? latestPost.author.posted_date : 'No publish date'}</p>
         </div>
 
         <!-- Title -->
-        <h2 class="text-lg font-semibold">${latestPost.title?latestPost.title: 'Not Found'}</h2>
+        <h2 class="text-lg font-semibold">${latestPost.title ? latestPost.title : 'Not Found'}</h2>
 
         <!-- Exert -->
-        <p>${latestPost.description?latestPost.description:'No Data Found'}</p>
+        <p>${latestPost.description ? latestPost.description : 'No Data Found'}</p>
 
         <!-- Author Info -->
         <div class="flex gap-4">
@@ -135,9 +144,18 @@ const displayLatestPost = data =>{
             </div>
         </div>
         `;
-        latestPostContainer.appendChild(latestPostCard);  
+        latestPostContainer.appendChild(latestPostCard);
     });
 }
+
+// Categories post
+const searchField = document.getElementById('search-field')
+const searchPost = () =>{
+    const searchFieldText = searchField.value;
+    catPost(searchFieldText);
+}
+
+// searchPost();
 
 loadLatestPost()
 
