@@ -3,7 +3,6 @@ const loadPost = async () => {
     // Loader on
     const loader = document.getElementById('loading');
     loader.classList.remove('hidden');
-    // console.log(searchPost);
     const response = await fetch('https://openapi.programming-hero.com/api/retro-forum/posts');
     const data = await response.json();
     const posts = data.posts;
@@ -42,20 +41,21 @@ const displayPost = posts => {
 
     // Loop trough and get individual post
     posts.forEach(post => {
-        let title = post.title;
+
+        // Dealing with inside single code of a string like (i'll go)
+        let title = post?.title;
         title = title.replace(/'/g, "\\'");
 
         // loader off
         const loader = document.getElementById('loading');
         loader.classList.add('hidden');
 
-        // console.log(post.title);
         const postCard = document.createElement('div');
         postCard.className = `grid lg:grid-cols-5 gap-5 border p-5 bg-[#797DFC10] rounded-xl items-center`;
         postCard.innerHTML = `
         <div class="flex justify-center">
-        <div class="avatar w-24 ${post.isActive ? 'online' : 'offline'}">
-            <img class="rounded-full w-8" src="${post.image}" alt="${post.author.name}">
+        <div class="avatar w-24 ${post?.isActive ? 'online' : 'offline'}">
+            <img class="rounded-full w-8" src="${post?.image || 'No images found'}" alt="${post?.author?.name || 'no name'}">
         </div>
         </div>
         <!-- Post Everything -->
@@ -63,13 +63,13 @@ const displayPost = posts => {
         <!-- Category & Author -->
         <div class="flex gap-5">
             <p># ${post.category}</p>
-            <p><span class="font-semibold">Authon:</span> ${post.author.name}</p>
+            <p><span class="font-semibold">Authon:</span> ${post?.author?.name || 'no name'}</p>
         </div>
 
         <!-- Title & description -->
         <div class="space-y-2 border-b-2 border-dashed pb-3">
-            <h2 class="text-xl font-semibold">${post.title}</h2>
-            <p>${post.description}</p>
+            <h2 class="text-xl font-semibold">${post?.title || 'not found'}</h2>
+            <p>${post?.description || 'Not Found'}</p>
         </div>
 
         <!-- Post like, comment & reading time -->
@@ -79,24 +79,24 @@ const displayPost = posts => {
                 <!-- comment -->
                 <div class="flex gap-1 items-center">
                     <img src="./assets/comments.svg" alt="comments">
-                    <p>${post.comment_count}</p>
+                    <p>${post?.comment_count || 'No comments Available'}</p>
                 </div>
 
                 <!-- Views -->
                 <div class="flex gap-1 items-center">
                     <img src="./assets/views.svg" alt="comments">
-                    <p>${post.view_count}</p>
+                    <p>${post?.view_count || 'No View count Available'}</p>
                 </div>
 
                 <!-- Read time -->
                 <div class="flex gap-1 items-center">
                     <img src="./assets/readTime.svg" alt="comments">
-                    <p>${post.posted_time} <span>min</span></p>
+                    <p>${post?.posted_time || 'No Post time Available'} <span>min</span></p>
                 </div>
             </div>
 
             <!-- Marked -->
-            <img src="./assets/marked.svg" alt="" onclick="markAsRead('${title}', ${post.view_count})">
+            <img src="./assets/marked.svg" alt="" onclick="markAsRead('${title}', ${post?.view_count})">
         </div>
         </div>
         `
@@ -112,7 +112,6 @@ let readCount = document.getElementById('readCount');
 readCount.innerText = markedCount;
 
 const markAsRead = (title, view) => {
-    console.log(title, view);
 
     markedCount++
     readCount.innerText = markedCount;
