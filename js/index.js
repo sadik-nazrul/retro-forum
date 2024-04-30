@@ -1,5 +1,8 @@
 // Load all posts form the given API
 const loadPost = async () => {
+    // Loader on
+    const loader = document.getElementById('loading');
+    loader.classList.remove('hidden');
     // console.log(searchPost);
     const response = await fetch('https://openapi.programming-hero.com/api/retro-forum/posts');
     const data = await response.json();
@@ -7,11 +10,27 @@ const loadPost = async () => {
     displayPost(posts)
 }
 
-const catPost = async(searchFieldText)=>{
+
+// Categoriy post fetching based on Searched category
+const catPost = async (searchFieldText) => {
+    const loader = document.getElementById('loading');
+    loader.classList.remove('hidden');
     const response = await fetch(`https://openapi.programming-hero.com/api/retro-forum/posts?category=${searchFieldText}`);
     const data = await response.json();
-    const serPost = data.posts
-    displayPost(serPost);
+    const searchPosts = data.posts
+    if (searchPosts.length === 0) {
+        dataNotFound(searchPosts)
+    }
+    else {
+        displayPost(searchPosts);
+    }
+}
+
+// Data not found function
+const dataNotFound = () => {
+    const postContainer = document.getElementById('post-container');
+    postContainer.innerHTML = `
+    <h2 class="p-10 text-4xl font-bold font-mulish">No Data Found serch by valid category which is: coding, comedy, & music"</h2>`
 }
 
 // Get posts individulaly for showing in the UI which is retro foum landing page
@@ -23,15 +42,21 @@ const displayPost = posts => {
 
     // Loop trough and get individual post
     posts.forEach(post => {
+        // loader off
+        const loader = document.getElementById('loading');
+        loader.classList.add('hidden');
+
         // console.log(post.title);
         const postCard = document.createElement('div');
-        postCard.className = `grid grid-cols-3 gap-5 border p-5 bg-[#797DFC10] rounded-xl items-center`;
+        postCard.className = `grid lg:grid-cols-5 gap-5 border p-5 bg-[#797DFC10] rounded-xl items-center`;
         postCard.innerHTML = `
-        <div class="avatar ${post.isActive ? 'online' : 'offline'}">
+        <div class="flex justify-center">
+        <div class="avatar w-24 ${post.isActive ? 'online' : 'offline'}">
             <img class="rounded-full w-8" src="${post.image}" alt="${post.author.name}">
         </div>
+        </div>
         <!-- Post Everything -->
-        <div class="space-y-3 col-span-2">
+        <div class="space-y-3 col-span-4">
         <!-- Category & Author -->
         <div class="flex gap-5">
             <p># ${post.category}</p>
@@ -90,7 +115,7 @@ const markAsRead = (title, view) => {
     readCount.innerText = markedCount;
 
     const markDiv = document.createElement('div');
-    markDiv.className = `flex justify-between gap-4 bg-white p-4 rounded-xl`;
+    markDiv.className = `flex justify-between gap-4 p-4 rounded-xl shadow`;
     markDiv.innerHTML = `
     <!-- title -->
     <p>${title ? title : 'not found'}</p>
@@ -117,7 +142,7 @@ const displayLatestPost = data => {
     // Iterate latest posts array and get single post
     data.forEach(latestPost => {
         const latestPostCard = document.createElement('div');
-        latestPostCard.className = `flex flex-col gap-3 border p-4 rounded-xl`;
+        latestPostCard.className = `flex flex-col gap-3 border p-4 rounded-xl justify-between m-2 lg:m-0`;
         latestPostCard.innerHTML = `
         <!-- Featured Image -->
         <img class="rounded-lg" src="${latestPost.cover_image ? latestPost.cover_image : 'Not found'}" alt="">
@@ -148,14 +173,19 @@ const displayLatestPost = data => {
     });
 }
 
-// Categories post
+// Seartch post
 const searchField = document.getElementById('search-field')
-const searchPost = () =>{
+const searchPost = () => {
     const searchFieldText = searchField.value;
-    catPost(searchFieldText);
+
+    if (searchFieldText) {
+        catPost(searchFieldText);
+    }
+    else {
+        alert('enter valid key')
+    }
 }
 
-// searchPost();
 
 loadLatestPost()
 

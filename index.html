@@ -17,56 +17,75 @@
     <!-- Header -->
     <header class="container mx-auto">
         <!-- Navebar -->
-        <nav class="flex justify-between items-center py-8">
-            <div>
-                <img src="./assets/logo.png" alt="Retro Forum">
-            </div>
-            <div class="hidden lg:block md:block">
-                <div class="flex items-center gap-3">
-                    <div class="tooltip" data-tip="Home">
-                        <img src="./assets/home.svg" alt="">
+        <nav>
+            <div class="flex justify-between items-center lg:py-10 px-5 lg:px-0 py-5">
+                <div class="flex items-center gap-5">
+                    <div class="dropdown">
+                        <div tabindex="0" role="button" class="btn p-0 btn-ghost lg:hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6h16M4 12h8m-8 6h16" />
+                            </svg>
+                        </div>
+                        <ul tabindex="0"
+                            class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-24">
+                            <li>
+                                <div class="tooltip" data-tip="Home">
+                                    <img src="./assets/home.svg" alt="">
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tooltip" data-tip="Edit">
+                                    <img src="./assets/edit.svg" alt="">
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tooltip" data-tip="User">
+                                    <img src="./assets/user.svg" alt="">
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tooltip" data-tip="Marked">
+                                    <img src="./assets/flag.svg" alt="">
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="tooltip" data-tip="Edit">
-                        <img src="./assets/edit.svg" alt="">
-                    </div>
-                    <div class="tooltip" data-tip="User">
-                        <img src="./assets/user.svg" alt="">
-                    </div>
-                    <div class="tooltip" data-tip="Marked">
-                        <img src="./assets/flag.svg" alt="">
-                    </div>
+                    <img src="./assets/logo.png" alt="">
+                </div>
+                <div class="navbar-center hidden lg:flex">
+                    <ul class="space-x-3 menu-horizontal px-1">
+                        <li>
+                            <div class="tooltip" data-tip="Home">
+                                <img src="./assets/home.svg" alt="">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="tooltip" data-tip="Edit">
+                                <img src="./assets/edit.svg" alt="">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="tooltip" data-tip="User">
+                                <img src="./assets/user.svg" alt="">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="tooltip" data-tip="Marked">
+                                <img src="./assets/flag.svg" alt="">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="tooltip" data-tip="Sign In">
+                                <button class="btn btn-primary rounded-full">Sign In</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="gap-3 lg:hidden">
                     <div class="tooltip" data-tip="Sign In">
                         <button class="btn btn-primary rounded-full">Sign In</button>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="lg:hidden md:hidden block">
-                <div class="dropdown">
-                    <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h7" />
-                        </svg>
-                    </div>
-                    <div tabindex="0" class="dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box">
-                        <div class="tooltip" data-tip="Home">
-                            <img src="./assets/home.svg" alt="">
-                        </div>
-                        <div class="tooltip" data-tip="Edit">
-                            <img src="./assets/edit.svg" alt="">
-                        </div>
-                        <div class="tooltip" data-tip="User">
-                            <img src="./assets/user.svg" alt="">
-                        </div>
-                        <div class="tooltip" data-tip="Marked">
-                            <img src="./assets/flag.svg" alt="">
-                        </div>
-                        <div class="tooltip" data-tip="Sign In">
-                            <button class="btn-primary rounded-full">Sign In</button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -79,11 +98,11 @@
             <!-- Intro & Search -->
             <div class="lg:space-y-5 space-y-2 p-5">
                 <h1 class="lg:text-6xl text-2xl font-black text-white font-mulish">Welcome to the <span><img
-                            class="inline-block w-16" src="./assets/ReTro.svg" alt=""></span> Forum</h1>
+                            class="inline-block w-16 lg:w-auto" src="./assets/ReTro.svg" alt=""></span> Forum</h1>
                 <p class="text-lg font-thin text-white">Share your favorite opinion and win and wp <br
                         class="hidden lg:block"> forum coffee mug!</p>
                 <label class="input input-bordered flex items-center gap-2 pr-[2px] rounded-full">
-                    <input id="search-field" type="text" class="grow" placeholder="Search here anything" />
+                    <input id="search-field" type="text" class="grow" placeholder="Search by category name" />
                     <button class="badge badge-primary py-5 px-8 text-white" onclick="searchPost()">Search</button>
                 </label>
             </div>
@@ -123,15 +142,23 @@
                 </div>
             </div>
 
-            <!-- All post Part -->
-            <div class="grid grid-cols-3 gap-5">
+            <!-- Loading -->
+            <div id="loading" class="hidden">
+                <div class="grid place-content-center">
+                    <img src="./assets/loading.gif" alt="loading">
+                </div>
+            </div>
 
-                <div id="post-container" class="col-span-2 space-y-4">
+
+            <!-- All post Part -->
+            <div class="grid lg:grid-cols-3 grid-cols-1 p-2 lg:p-0 md:p-0 gap-5">
+
+                <div id="post-container" class="col-span-2 space-y-4 order-2 lg:order-none">
                     <!-- Dynamically show all post inside the container -->
                 </div>
 
                 <!-- Mark as read -->
-                <div id="mark-container" class="flex flex-col gap-3 bg-[#12132D10] p-4 rounded-xl">
+                <div id="mark-container" class="flex flex-col gap-3 p-4 rounded-xl">
                     <!-- Intro -->
                     <div class="flex justify-between">
                         <h2 class="font-semibold">Title</h2>
@@ -185,9 +212,10 @@
     <footer class="bg-[#12132d13] py-10">
         <div class="container mx-auto flex items-center flex-col py-10 gap-3 border-b-[1px] border-black border-dashed">
             <img src="./assets/logo.png" alt="">
-            <p class="lg:w-1/2 text-center">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical
+            <p class="lg:w-1/2 text-center">Contrary to popular belief, Lorem Ipsum is not simply random text. It has
+                roots in a piece of classical
                 Latin literature from 45 BC</p>
-                <img src="./assets/Social.svg" alt="">
+            <img src="./assets/Social.svg" alt="">
         </div>
         <div class="text-center mt-5">
             <p>2017, All Rights Reserved.</p>
