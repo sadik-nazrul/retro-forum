@@ -42,6 +42,9 @@ const displayPost = posts => {
 
     // Loop trough and get individual post
     posts.forEach(post => {
+        let title = post.title;
+        title = title.replace(/'/g, "\\'");
+
         // loader off
         const loader = document.getElementById('loading');
         loader.classList.add('hidden');
@@ -93,7 +96,7 @@ const displayPost = posts => {
             </div>
 
             <!-- Marked -->
-            <img src="./assets/marked.svg" alt="" onclick="markAsRead('${post?.title || 'Not Found'}', ${post?.view_count || 'Not Found'})">
+            <img src="./assets/marked.svg" alt="" onclick="markAsRead('${title}', ${post.view_count})">
         </div>
         </div>
         `
